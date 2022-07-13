@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Algs.Core.Fundamentals.Stack
 {
-    public class Stack<T> : IStack<T>
+    public class LinkedListStack<T> : IStack<T>
     {
         private Node<T>? _head;
         private int _n;
 
-        public Stack()
+        public LinkedListStack()
         {
             _head = null;
             _n = 0;
@@ -20,7 +20,12 @@ namespace Algs.Core.Fundamentals.Stack
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            var current = _head;
+            while (current != null)
+            {
+                yield return current.Value;
+                current = current.Next;
+            }
         }
 
         public bool IsEmpty()
@@ -30,8 +35,7 @@ namespace Algs.Core.Fundamentals.Stack
 
         public T Peek()
         {
-            return
-                _head == null ? throw new EmptyStackOperationException("Stack is empty") : _head.Value;
+            return _head == null ? throw new EmptyStackOperationException("Stack is empty") : _head.Value;
         }
 
         public T Pop()
@@ -52,9 +56,9 @@ namespace Algs.Core.Fundamentals.Stack
         public void Push(T item)
         {
             var oldHead = _head;
-            
+
             _head = new Node<T>(item);
-            
+
             if (oldHead != null)
             {
                 _head.Next = oldHead;
@@ -70,7 +74,7 @@ namespace Algs.Core.Fundamentals.Stack
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
     }
 }

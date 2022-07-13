@@ -4,23 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Algs.Core.Fundamentals.Stack;
+
 namespace Algs.UnitTests.Fundamentals.Stack
 {
     public class Push
     {
-        private Core.Fundamentals.Stack.IStack<string> _testStack;
+        private IStack<string> _testStack;
 
-        private Core.Fundamentals.Stack.Stack<string> CreateStack()
+        private LinkedListStack<string> CreateLinkedListStack()
         {
-            return new Core.Fundamentals.Stack.Stack<string>();
+            return new LinkedListStack<string>();
+        }
+
+        private ResizingArrayStack<string> CreateResizingArrayStack()
+        {
+            return new ResizingArrayStack<string>();
         }
 
         [Theory]
         [InlineData(new string[] { "Test" }, 1)]
         [InlineData(new string[] { "Test", "Test2", "Test3" }, 3)]
-        public void ShouldIncreaseSizeByOne(string[] input, int output)
+        public void LinkedList_ShouldIncreaseSizeByOne(string[] input, int output)
         {
-            _testStack = CreateStack();
+            _testStack = CreateLinkedListStack();
 
             foreach (string item in input)
             {
@@ -33,9 +40,39 @@ namespace Algs.UnitTests.Fundamentals.Stack
         [Theory]
         [InlineData(new string[] { "Test" }, "Test")]
         [InlineData(new string[] { "Test", "Test2", "Test3" }, "Test3")]
-        public void ShouldPlacePushedItemAtTop(string[] input, string output)
+        public void LinkedList_ShouldPlacePushedItemAtTop(string[] input, string output)
         {
-            _testStack = CreateStack();
+            _testStack = CreateLinkedListStack();
+
+            foreach (string item in input)
+            {
+                _testStack.Push(item);
+            }
+
+            Assert.Equal(output, _testStack.Peek());
+        }
+
+        [Theory]
+        [InlineData(new string[] { "Test" }, 1)]
+        [InlineData(new string[] { "Test", "Test2", "Test3" }, 3)]
+        public void ResizingArray_ShouldIncreaseSizeByOne(string[] input, int output)
+        {
+            _testStack = CreateResizingArrayStack();
+
+            foreach (string item in input)
+            {
+                _testStack.Push(item);
+            }
+
+            Assert.Equal(output, _testStack.Size());
+        }
+
+        [Theory]
+        [InlineData(new string[] { "Test" }, "Test")]
+        [InlineData(new string[] { "Test", "Test2", "Test3" }, "Test3")]
+        public void ResizingArray_ShouldPlacePushedItemAtTop(string[] input, string output)
+        {
+            _testStack = CreateResizingArrayStack();
 
             foreach (string item in input)
             {

@@ -11,15 +11,20 @@ namespace Algs.UnitTests.Fundamentals.Stack
     public class Pop
     {
         private IStack<string> _testStack;
-        private Core.Fundamentals.Stack.Stack<string> CreateStack()
+        private static LinkedListStack<string> CreateLinkedListStack()
         {
-            return new Core.Fundamentals.Stack.Stack<string>();
+            return new LinkedListStack<string>();
+        }
+
+        private static ResizingArrayStack<string> CreateResizingArrayStack()
+        {
+            return new ResizingArrayStack<string>();
         }
 
         [Fact]
-        public void ShouldReturnItemAtTopAndDecreaseSize()
+        public void LinkedList_ShouldReturnItemAtTopAndDecreaseSize()
         {
-            _testStack = CreateStack();
+            _testStack = CreateLinkedListStack();
 
             _testStack.Push("Test");
 
@@ -33,13 +38,40 @@ namespace Algs.UnitTests.Fundamentals.Stack
         }
 
         [Fact]
-        public void ShouldThrowEmptyStackOperationException_WhenStackIsEmpty()
+        public void LinkedList_ShouldThrowEmptyStackOperationException_WhenStackIsEmpty()
         {
-            _testStack = CreateStack();
+            _testStack = CreateLinkedListStack();
 
             var popFromStackCall = () => _testStack.Pop();
 
             Assert.Throws<EmptyStackOperationException>(popFromStackCall);
         }
+
+        [Fact]
+        public void ResizingArray_ShouldReturnItemAtTopAndDecreaseSize()
+        {
+            _testStack = CreateResizingArrayStack();
+
+            _testStack.Push("Test");
+
+            Assert.Equal(1, _testStack.Size());
+            Assert.Equal("Test", _testStack.Peek());
+
+            var item = _testStack.Pop();
+
+            Assert.Equal(0, _testStack.Size());
+            Assert.Equal("Test", item);
+        }
+
+        [Fact]
+        public void ResizingArray_ShouldThrowEmptyStackOperationException_WhenStackIsEmpty()
+        {
+            _testStack = CreateResizingArrayStack();
+
+            var popFromStackCall = () => _testStack.Pop();
+
+            Assert.Throws<EmptyStackOperationException>(popFromStackCall);
+        }
+
     }
 }
