@@ -9,13 +9,12 @@ namespace Algs.Core.Fundamentals.Stack
 {
     public class ResizingArrayStack<T> : IStack<T>
     {
-
-        private T[] _stack;
+        private T[] _a;
         private int _n;
 
         public ResizingArrayStack(int size = 1)
         {
-            _stack = new T[size];
+            _a = new T[size];
             _n = 0;
         }
 
@@ -23,7 +22,7 @@ namespace Algs.Core.Fundamentals.Stack
         {
             for (int i = _n; i > 0; i--)
             {
-                yield return _stack[i];
+                yield return _a[i];
             }
         }
 
@@ -34,7 +33,7 @@ namespace Algs.Core.Fundamentals.Stack
 
         public T Peek()
         {
-            return _stack[_n - 1];
+            return _a[_n - 1];
         }
 
         public T Pop()
@@ -44,12 +43,12 @@ namespace Algs.Core.Fundamentals.Stack
                 throw new EmptyStackOperationException("Stack is empty");
             }
 
-            var item = _stack[--_n];
-            _stack[_n] = default(T);
+            var item = _a[--_n];
+            _a[_n] = default(T);
 
-            if (_n == _stack.Length/4)
+            if (_n == _a.Length/4)
             {
-                Resize(_stack.Length / 2);
+                Resize(_a.Length / 2);
             }
 
             return item;
@@ -57,11 +56,11 @@ namespace Algs.Core.Fundamentals.Stack
 
         public void Push(T item)
         {
-            if (_n == _stack.Length)
+            if (_n == _a.Length)
             {
-                Resize(2*_stack.Length);
+                Resize(2*_a.Length);
             }
-            _stack[_n++] = item;
+            _a[_n++] = item;
         }
 
         private void Resize(int max)
@@ -70,10 +69,10 @@ namespace Algs.Core.Fundamentals.Stack
 
             for (int i = 0; i < _n; i++)
             {
-                newStack[i] = _stack[i];
+                newStack[i] = _a[i];
             }
 
-            _stack = newStack;
+            _a = newStack;
         }
 
         public int Size()

@@ -14,6 +14,7 @@ namespace Algs.Core.Fundamentals
         public Node(T val)
         {
             Value = val;
+            Next = null;
         }
     }
 }

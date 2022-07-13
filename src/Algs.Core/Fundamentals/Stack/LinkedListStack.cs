@@ -35,7 +35,7 @@ namespace Algs.Core.Fundamentals.Stack
 
         public T Peek()
         {
-            return _head == null ? throw new EmptyStackOperationException("Stack is empty") : _head.Value;
+            return IsEmpty() ? throw new EmptyStackOperationException("Stack is empty") : _head.Value;
         }
 
         public T Pop()
